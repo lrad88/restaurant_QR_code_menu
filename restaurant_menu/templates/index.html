@@ -1,0 +1,82 @@
+
+
+{% extends 'base.html' %}
+<!-- above line connects this template to base.html and will now
+ send the below block content to base.html-->
+{% block content %}
+<div class = "container">
+<!-- container is a class from bootstrap that applies margins  -->
+    <h1>trattoria di mia madre menu</h1>
+        <ul class="list-group list-group-flush">
+<!-- list-group-flush is a class from bootstrap that removes the
+bullets from the list -->
+<!-- list-group is a class from bootstrap that applies bullets -->
+            {% for meal in meals %}
+<!-- the above jinja code refers to views.py context dictionary meals
+and will list meals instead of putting them on one line -->
+            <h2 class="pt-5">{{meal.1}} </h2>
+<!-- the above jinja code refers to views.py context dictionary and
+will print to the page all data in the meals key in the .1 position-->
+                {% for row in item_list %}
+<!-- item_list comes from the item class in models.py. "_list" is a
+special naming convention used in django-->
+                    {% if row.meal_type == meal.0 %}
+<!-- above line checks if the row.meal_type matches the meal.0 -->
+                        {%  if row.status == 1%}
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 pb-0">
+<!-- li stands for list the following classes are from bootstrap and give css specifics -->
+                            {% load static %}
+                            <a href="{% url 'menu_item' row.pk %}"><h3><del>{{row.meal}}</del></h3></a>
+                          <!-- above line is <a means that this is a href clickable link -->
+                        {% if row.image %}
+                            {% if row.meal == "Antipasto" %}
+                            <img src="{% static 'images/Antipasto-Platter.jpg' %}" width="200" height ="200">
+                            {% endif %}
+                            {% if row.meal == "BLT sandwich" %}
+                            <img src="{% static 'images/How-to-make-the-best-BLT-recipe-4-1024x1536.jpg' %}" width="200" height ="200">
+                            {% endif %}
+                            {% if row.meal == "Lamb kebab" %}
+                            <img src="{% static 'images/Lamb-Kebabs-Salimas-Kitchen-.ARW-51-1280x1920.jpg' %}" width="200" height ="200">
+                            {% endif %}
+                            {% if row.meal == "Tiramisu" %}
+                            <img src="{% static 'images/05COOKING-TIRAMISU1-master768.webp' %}" width="200" height ="200">
+                            {% endif %}
+                            {% if row.meal == "fruit salad" %}
+                            <img src="{% static 'images/Fruit-Salad-Recipe.jpg' %}" width="200" height ="200">
+                            {% endif %}
+
+                        {% endif %}
+
+
+                            <span class="badge bg-primary square-pill">$ {{ row.price }}</span>
+                        </li>
+<!-- above lines say if the row status is unavailable ("0" from STATUS
+in models.py) then the meal is given a strike through font "<del>" -->
+<!-- row.pk refers to the primary key in the database int.pk also has
+ to be entered into the path in urls.py in restaurant_menu-->
+<!-- above 'menu_item' is the name of the url in urls.py in restaurant_menu -->
+                        <li class="list-group-item pt-0">
+                            <p>{{row.description}}</p>
+                        </li>
+<!-- using <p> here turns the list into rows -->
+                        {% else %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 pb-0">
+                            <a href="{% url 'menu_item' row.pk %}"><h3>{{row.meal}}</h3></a>
+                            <span class="badge bg-primary rounded-pill">{{ row.price }}</span>
+<!-- span puts text on the far right of the menu item, bg-primary is a color and square
+pill is a style from bootstrap -->
+                        </li>
+<!-- above menu.item title comes from the class MenuItemDetail in views.py -->
+                        <li class="list-group-item pt-0">
+                            <p>{{row.description}}</p>
+<!-- above lines allow available meals to be displayed -->
+                        </li>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+    </ul>
+</div>
+{% endblock content %}
+<!-- the above block content wil be inserted into the base.html
+within the block content area -->

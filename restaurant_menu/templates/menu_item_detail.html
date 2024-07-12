@@ -1,0 +1,15 @@
+<div class = "container">
+{% extends 'base.html' %}
+
+    <!-- above line connects this template to base.html and will now
+     send the below block content to base.html-->
+    {% block content %}
+        <div class = "container">
+            <h1 class="pt-5"> {{ item.meal }}</h1>
+            <!-- refers to item in models.py -->
+            <p> {{ item.description }} </p>
+            <p> {{ item.price }} </p>
+            <p> {{ item.images }} </p>
+        </div>
+    {% endblock content %}
+</div>
