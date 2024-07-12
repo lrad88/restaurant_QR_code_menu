@@ -1,0 +1,1 @@
+A new techological wonder! a restaurant menu you can only access through your phone. What's a QR code you ask ?
